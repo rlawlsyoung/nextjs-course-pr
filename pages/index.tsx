@@ -1,3 +1,6 @@
+import fs from "fs/promises";
+import path from "path";
+
 interface HomepageProps {
   products: { id: number; title: string }[];
 }
@@ -12,13 +15,15 @@ const Homepage: React.FC<HomepageProps> = ({ products }) => {
   );
 };
 
-export const getStaticProps = () => {
+export const getStaticProps = async () => {
+  const filePath = path.join(process.cwd(), "data", "dummy-data.json");
+  // cwd란 현재 작업 디렉토리를 뜻함. 참고로 현재 작업 디렉토리는 pages 폴더가 아닌 전체 프로젝트 폴더임
+  const jsonData = await fs.readFile(filePath);
+  const data = JSON.parse(jsonData.toString());
+
   return {
     props: {
-      products: [
-        { id: 1, title: "Product 1" },
-        { id: 2, title: "Product 2" },
-      ],
+      products: data.products,
     },
   };
 };
