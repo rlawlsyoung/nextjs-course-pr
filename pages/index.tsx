@@ -16,6 +16,7 @@ const Homepage: React.FC<HomepageProps> = ({ products }) => {
 };
 
 export const getStaticProps = async () => {
+  console.log("re generating..");
   const filePath = path.join(process.cwd(), "data", "dummy-data.json");
   // cwd란 현재 작업 디렉토리를 뜻함. 참고로 현재 작업 디렉토리는 pages 폴더가 아닌 전체 프로젝트 폴더임
   const jsonData = await fs.readFile(filePath);
@@ -25,6 +26,7 @@ export const getStaticProps = async () => {
     props: {
       products: data.products,
     },
+    revalidate: 10,
   };
 };
 
