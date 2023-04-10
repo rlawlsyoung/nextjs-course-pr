@@ -1,6 +1,14 @@
+import Link from "next/link";
 import fs from "fs/promises";
-import { GetStaticProps } from "next";
 import path from "path";
+
+import { GetStaticProps } from "next";
+
+export interface dataType {
+  id: string;
+  title: string;
+  description: string;
+}
 
 interface HomepageProps {
   products: { id: number; title: string }[];
@@ -10,7 +18,9 @@ const Homepage: React.FC<HomepageProps> = ({ products }) => {
   return (
     <ul>
       {products.map((product) => (
-        <li key={product.id}>{product.title}</li>
+        <li key={product.id}>
+          <Link href={`/${product.id}`}>{product.title}</Link>
+        </li>
       ))}
     </ul>
   );
