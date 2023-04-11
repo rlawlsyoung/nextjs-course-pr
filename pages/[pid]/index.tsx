@@ -11,6 +11,10 @@ interface ProductDetailPageProps {
 const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   loadedProduct,
 }) => {
+  if (!loadedProduct) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <>
       <h1>{loadedProduct.title}</h1> <p>{loadedProduct.description}</p>
@@ -35,6 +39,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     (product: dataType) => product.id === productId
   );
 
+  if (!product) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       loadedProduct: product,
@@ -51,7 +61,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: pathsWithParams,
-    fallback: false,
+    fallback: true,
   };
 };
 
