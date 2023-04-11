@@ -18,12 +18,18 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const productId = params?.pid;
-
+const getData = async () => {
   const filePath = path.join(process.cwd(), "data", "dummy-data.json");
   const jsonData = await fs.readFile(filePath);
   const data = JSON.parse(jsonData.toString());
+
+  return data;
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const productId = params?.pid;
+
+  const data = await getData();
 
   const product = data.products.find(
     (product: dataType) => product.id === productId
@@ -37,9 +43,15 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const data = await getData();
+
+  const ids = data.products.map((product: dataType) => product.id);
+
+  const pathsWithParams = ids.map((id: string) => ({ params: { pid: id } }));
+
   return {
-    paths: [{ params: { pid: "p1" } }],
-    fallback: "blocking",
+    paths: pathsWithParams,
+    fallback: false,
   };
 };
 
