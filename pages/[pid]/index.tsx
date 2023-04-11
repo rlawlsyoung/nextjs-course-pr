@@ -38,12 +38,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: [
-      { params: { pid: "p1" } },
-      { params: { pid: "p2" } },
-      { params: { pid: "p3" } },
-    ],
-    fallback: false,
+    paths: [{ params: { pid: "p1" } }],
+    fallback: "blocking",
   };
 };
 
