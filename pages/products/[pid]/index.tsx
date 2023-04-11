@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import fs from "fs/promises";
 import path from "path";
 
-import { dataType } from "..";
+import { dataType } from "../..";
 
 interface ProductDetailPageProps {
   loadedProduct: dataType;
